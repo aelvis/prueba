@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Routes, Route } from 'react-router-dom'; // Import Routes and Route
-import Sidebar from './components/Sidebar';
-import Header from './components/Header';
-import MainContent from './components/MainContent';
-import Dashboard from './pages/Dashboard'; // Import Dashboard page
-import Profile from './pages/Profile'; // Import Profile page
+import Sidebar from './components/Sidebar.jsx';
+import Header from './components/Header.jsx';
+import MainContent from './components/MainContent.jsx';
+import Dashboard from './pages/Dashboard.jsx'; // Import Dashboard page
+import Profile from './pages/Profile.jsx'; // Import Profile page
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
