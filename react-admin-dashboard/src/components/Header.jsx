@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'; // Import Link
 import 'bootstrap-icons/font/bootstrap-icons.css'; // For icons other than sidebar
 
 const Header = (props) => {
-  const { toggleSidebar } = props;
+  const { toggleSidebar, onLogout } = props; // Add onLogout to props
 
   // Adjusted style to remove fixed marginLeft, as this will be handled by a wrapper in App.js
   // or by classes on the content wrapper.
@@ -72,7 +72,7 @@ const Header = (props) => {
                   <Dropdown.Item as={Link} to="/settings"><i className="material-icons">settings</i>Settings</Dropdown.Item> {/* Assuming a /settings route */}
                   <Dropdown.Item as={Link} to="/profile"><i className="material-icons">badge</i>Profile</Dropdown.Item>
                   <Dropdown.Divider />
-                  <Dropdown.Item href="#!">Sign out</Dropdown.Item> {/* Sign out is usually not a Link */}
+                  <Dropdown.Item onClick={onLogout}><i className="material-icons">logout</i>Sign out</Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
             </Nav>
