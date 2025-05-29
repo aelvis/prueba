@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Admin Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&amp;display=swap" rel="stylesheet" />
+    <style>
+        body {
+            font-family: "Lato", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+            background-color: #f3f4f6;
+            font-size: 0.95rem;
+            font-weight: 300;
+        }
+
+        .sidebar {
+            width: 256px;
+            transition: margin-left 0.3s ease-in-out;
+            background-color: #111827;
+            color: #ffffff;
+            margin-left: 0;
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            z-index: 1000;
+        }
+
+        .sidebar.collapsed {
+            margin-left: -256px;
+        }
+
+        .sidebar-header {
+            position: relative;
+            height: 60px;
+        }
+
+        .sidebar-logo {
+            color: #ffffff;
+            font-size: 1.15rem;
+            font-weight: 400;
+        }
+
+        .nav-link {
+            color: #ffffff;
+            font-weight: 400;
+            border-radius: 0.375rem;
+            transition: background-color 0.2s ease, color 0.2s ease;
+            font-size: 0.9rem;
+        }
+
+        .nav-link:hover {
+            background-color: #1f2937;
+            color: #ffffff;
+        }
+
+        .nav-item-active>.nav-link,
+        .nav-item-active>.nav-link:hover {
+            background-color: #1f2937;
+            color: #ffffff !important;
+            font-weight: 400;
+        }
+
+        .nav-link .material-icons {
+            vertical-align: middle;
+            color: #9ca3af;
+            font-size: 1.2rem;
+        }
+
+        .nav-item-active .nav-link .material-icons,
+        .nav-link:hover .material-icons {
+            color: #ffffff;
+        }
+
+        .submenu {
+            padding-left: 1.5rem;
+        }
+
+        .submenu .nav-link {
+            font-size: 0.825rem;
+            padding-top: 0.5rem;
+            padding-bottom: 0.5rem;
+            font-weight: 300;
+        }
+
+        .submenu .nav-link .material-icons {
+            font-size: 0.95rem;
+        }
+
+        .main-content {
+            transition: margin-left 0.3s ease-in-out;
+            width: 100%;
+        }
+
+        .header {
+            background-color: #111827;
+            color: #ffffff;
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+        }
+
+        .btn-icon {
+            color: #9ca3af;
+        }
+
+        .btn-icon:hover {
+            color: #ffffff;
+        }
+
+        .search-input {
+            padding-left: 2.5rem;
+            border-color: #374151;
+            background-color: #1f2937;
+            color: #ffffff;
+            font-size: 0.825rem;
+            font-weight: 300;
+        }
+
+        .search-input::placeholder {
+            color: #9ca3af;
+            font-weight: 300;
+        }
+
+        .search-input:focus {
+            border-color: #3b82f6;
+            background-color: #1f2937;
+            color: #ffffff;
+            box-shadow: 0 0 0 0.2rem rgba(59, 130, 246, 0.25);
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -3px;
+            right: -3px;
+            height: 0.75rem;
+            width: 0.75rem;
+            border-radius: 9999px;
+            border: 2px solid #111827;
+            background-color: #ef4444;
+        }
+
+        .text-muted-light {
+            color: #9ca3af !important;
+            font-size: 0.78rem;
+            font-weight: 300;
+        }
+
+        .sidebar-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            display: none;
+        }
+
+        .sidebar-close-btn {
+            display: none;
+            position: absolute;
+            top: 0.75rem;
+            right: 0.75rem;
+            z-index: 1001;
+            color: #ffffff;
+        }
+
+        .avatar-dropdown .dropdown-menu {
+            border-radius: 0.5rem;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+            border: 1px solid #374151;
+            background-color: #111827;
+            padding-top: 0.5rem;
+            padding-bottom: 0.5rem;
+            min-width: 10rem;
+            transform-origin: top center;
+        }
+
+        .avatar-dropdown .dropdown-item {
+            padding: 0.5rem 1rem;
+            color: #ffffff;
+            font-size: 0.9rem;
+            font-weight: 300;
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
+
+        .avatar-dropdown .dropdown-item:hover {
+            background-color: #1f2937;
+            color: #ffffff;
+        }
+
+        .avatar-dropdown .dropdown-item .material-icons {
+            font-size: 1.075rem;
+            vertical-align: middle;
+            margin-right: 0.5rem;
+            color: #9ca3af;
+        }
+
+        .avatar-dropdown .dropdown-item:hover .material-icons {
+            color: #ffffff;
+        }
+
+        .avatar-dropdown .dropdown-divider {
+            margin: 0.5rem 0;
+            border-top: 1px solid #374151;
+        }
+
+        @keyframes slideDownExpand {
+            from {
+                opacity: 0;
+                transform: scaleY(0.95) translateY(0);
+            }
+
+            to {
+                opacity: 1;
+                transform: scaleY(1) translateY(0);
+            }
+        }
+
+        @media (max-width: 767.98px) {
+            .sidebar {
+                margin-left: -256px;
+            }
+
+            .sidebar.collapsed {
+                margin-left: -256px;
+            }
+
+            .sidebar.open {
+                margin-left: 0;
+            }
+
+            .main-content {
+                margin-left: 0 !important;
+            }
+
+            .sidebar-overlay.active {
+                display: block;
+            }
+
+            .sidebar-close-btn {
+                display: block;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .main-content.sidebar-open {
+                margin-left: 256px;
+            }
+
+            .main-content.sidebar-closed {
+                margin-left: 0;
+            }
+        }
+
+        .avatar-dropdown .dropdown-menu .text-dark {
+            color: #ffffff !important;
+        }
+
+        h1,
+        .h1 {
+            font-size: 1.9rem;
+            font-weight: 400;
+        }
+
+        h2,
+        .h2 {
+            font-size: 1.65rem;
+            font-weight: 400;
+        }
+
+        h3,
+        .h3 {
+            font-size: 1.4rem;
+            font-weight: 400;
+        }
+
+        h4,
+        .h4 {
+            font-size: 1.18rem;
+            font-weight: 400;
+        }
+
+        h5,
+        .h5 {
+            font-size: 1.075rem;
+            font-weight: 400;
+        }
+
+        h6,
+        .h6 {
+            font-size: 0.95rem;
+            font-weight: 400;
+        }
+
+        p {
+            font-size: 0.95rem;
+            line-height: 1.55;
+            font-weight: 300;
+        }
+
+        .small,
+        small {
+            font-size: 0.825rem;
+            font-weight: 300;
+        }
+
+        .text-uppercase {
+            letter-spacing: 0.04em;
+        }
+
+        .fw-light {
+            font-weight: 300 !important;
+        }
+
+        .fw-normal {
+            font-weight: 400 !important;
+        }
+
+        .fw-medium {
+            font-weight: 400 !important;
+        }
+
+        .fw-semibold {
+            font-weight: 400 !important;
+        }
+
+        .fw-bold {
+            font-weight: 700 !important;
+        }
+
+        .text-white-75 {
+            color: rgba(255, 255, 255, 0.75) !important;
+            font-size: 0.9rem;
+            font-weight: 300;
+        }
+
+        .card-title-custom {
+            font-size: 0.95rem;
+            font-weight: 400;
+            color: #4b5563;
+        }
+
+        .card-value-custom {
+            font-size: 1.65rem;
+            font-weight: 400;
+            color: #111827;
+        }
+
+        .card-percentage-custom {
+            font-size: 0.825rem;
+            font-weight: 400;
+        }
+
+        .card-footer-text-custom {
+            font-size: 0.78rem;
+            color: #6b7280;
+            font-weight: 300;
+        }
+
+        .main-header-greeting {
+            font-size: 1.4rem;
+            font-weight: 400;
+        }
+
+        .main-header-subtext {
+            font-size: 0.95rem;
+            color: rgba(255, 255, 255, 0.85);
+            font-weight: 300;
+        }
+
+        .metric-value {
+            font-size: 1.18rem;
+            font-weight: 400;
+        }
+
+        .metric-label {
+            font-size: 0.825rem;
+            color: rgba(255, 255, 255, 0.85);
+            font-weight: 300;
+        }
+
+        .chart-axis-label {
+            font-size: 0.72rem;
+            fill: #6b7280;
+            font-weight: 300;
+        }
+
+        .button-text-custom {
+            font-size: 0.825rem;
+            font-weight: 400;
+        }
+
+        .form-select-sm {
+            font-size: 0.825rem;
+            font-weight: 300;
+        }
+    </style>
+</head>
+
+<body class="d-flex vh-100 overflow-hidden">
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+    <aside class="sidebar d-flex flex-column vh-100" id="sidebar">
+        <div class="sidebar-header d-flex justify-content-center align-items-center px-3">
+            <h1 class="sidebar-logo mb-0">TREZO</h1>
+            <button class="btn btn-icon sidebar-close-btn d-md-none" id="sidebarCloseBtn">
+                <span class="material-icons">close</span>
+            </button>
+        </div>
+        <nav class="flex-grow-1 p-2 overflow-auto">
+            <p class="px-2 small text-muted-light text-uppercase fw-normal">Main</p>
+            <ul class="nav flex-column">
+                <li class="nav-item nav-item-active">
+                    <a aria-controls="dashboardSubmenu" aria-expanded="true"
+                        class="nav-link d-flex align-items-center px-3 py-2" data-bs-target="#dashboardSubmenu"
+                        data-bs-toggle="collapse" href="#">
+                        <span class="material-icons me-3">dashboard</span> Dashboard
+                        <span class="material-icons ms-auto small">expand_less</span>
+                    </a>
+                    <ul class="collapse list-unstyled submenu show" id="dashboardSubmenu">
+                        <li class="nav-item">
+                            <a class="nav-link d-flex align-items-center px-3 py-1" href="#">
+                                <span class="material-icons me-3 small">bar_chart</span> Analytics
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link d-flex align-items-center px-3 py-1" href="#">
+                                <span class="material-icons me-3 small">shopping_cart</span> eCommerce
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link d-flex align-items-center px-3 py-1" href="#">
+                                <span class="material-icons me-3 small">people</span> CRM
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link d-flex align-items-center px-3 py-2" href="#">
+                        <span class="material-icons me-3">layers</span> Layout
+                        <span class="material-icons ms-auto small text-muted-light">chevron_right</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link d-flex align-items-center px-3 py-2" href="#">
+                        <span class="material-icons me-3">dark_mode</span> Dark Mode
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link d-flex align-items-center px-3 py-2" href="#">
+                        <span class="material-icons me-3">settings_brightness</span> Sidebar Dark
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link d-flex align-items-center px-3 py-2" href="#">
+                        <span class="material-icons me-3">light_mode</span> RTL Light
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link d-flex align-items-center px-3 py-2" href="#">
+                        <span class="material-icons me-3">nights_stay</span> RTL Dark
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link d-flex align-items-center px-3 py-2" href="#">
+                        <span class="material-icons me-3">web</span> Front Pages
+                        <span class="material-icons ms-auto small text-muted-light">chevron_right</span>
+                    </a>
+                </li>
+            </ul>
+            <p class="px-2 pt-4 small text-muted-light text-uppercase fw-normal">Apps &amp; Pages</p>
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link d-flex align-items-center px-3 py-2" href="#">
+                        <span class="material-icons me-3">checklist</span> To Do List
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link d-flex align-items-center px-3 py-2" href="#">
+                        <span class="material-icons me-3">calendar_today</span> Calendar
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link d-flex align-items-center px-3 py-2" href="#">
+                        <span class="material-icons me-3">contacts</span> Contacts
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link d-flex align-items-center px-3 py-2" href="#">
+                        <span class="material-icons me-3">chat_bubble_outline</span> Chat
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link d-flex align-items-center px-3 py-2" href="#">
+                        <span class="material-icons me-3">email</span> Email
+                        <span class="material-icons ms-auto small text-muted-light">chevron_right</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link d-flex align-items-center px-3 py-2" href="#">
+                        <span class="material-icons me-3">view_kanban</span> Kanban Board
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link d-flex align-items-center px-3 py-2" href="#">
+                        <span class="material-icons me-3">folder_open</span> File Manager
+                        <span class="material-icons ms-auto small text-muted-light">chevron_right</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link d-flex align-items-center px-3 py-2" href="#">
+                        <span class="material-icons me-3">shopping_cart</span> eCommerce
+                        <span class="material-icons ms-auto small text-muted-light">chevron_right</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </aside>
+    <div class="flex-grow-1 d-flex flex-column overflow-hidden main-content" id="mainContent">
+        <header class="header py-2">
+            <div class="container-fluid">
+                <div class="d-flex align-items-center justify-content-between">
+                    <div class="d-flex align-items-center">
+                        <button class="btn btn-icon" id="sidebarToggle">
+                            <span class="material-icons">menu</span>
+                        </button>
+                        <div class="ms-3 position-relative">
+                            <span
+                                class="material-icons position-absolute top-50 start-0 translate-middle-y ms-2 text-muted-light"
+                                style="pointer-events: none;">search</span>
+                            <input class="form-control form-control-sm search-input" placeholder="Search here..."
+                                type="text" />
+                        </div>
+                        <button class="ms-2 btn btn-icon">
+                            <span class="material-icons">apps</span>
+                        </button>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <button class="btn btn-icon me-2">
+                            <span class="material-icons">wb_sunny</span>
+                        </button>
+                        <button class="btn btn-icon me-2">
+                            <span class="material-icons">fullscreen</span>
+                        </button>
+                        <button class="btn btn-icon me-2 position-relative">
+                            <span class="material-icons">notifications</span>
+                            <span class="notification-badge"></span>
+                        </button>
+                        <div class="dropdown avatar-dropdown me-2">
+                            <a aria-expanded="false" class="d-flex align-items-center text-decoration-none"
+                                data-bs-toggle="dropdown" href="#" id="dropdownUserAvatar">
+                                <img alt="User avatar" class="rounded-circle object-fit-cover" height="32"
+                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuAo4S-sLEZTxmtH2JopLciNaQ1nm2zi2VhshZO4vmkdoS8eYiNT8zJFXeA3EX4K4fE9BFUQoJntVo8mQI127zXukEFhfINgd3TVLg7mUY9Mg3bqldlaqcmU1ADouoeFAcoRnhnG4TRnmsKq70wqcy1lwj2xQ8jeA_CW6m6Fi0Q9o8QxXs0SOxPYEL4qD1e9GyRDJb8i0HHuogqYMyoWEWI0Iy-zdM6xkeTzGtLGsatLVvpNtk7VlKM4X3eIi943EeK2MuW6GlyQqcbH"
+                                    width="32" />
+                                <div class="ms-2 d-none d-sm-block">
+                                    <p class="small fw-normal text-white mb-0">Olivia</p>
+                                </div>
+                                <button class="btn btn-icon btn-sm ms-1 p-0">
+                                    <span class="material-icons small align-middle">expand_more</span>
+                                </button>
+                            </a>
+                            <ul aria-labelledby="dropdownUserAvatar" class="dropdown-menu dropdown-menu-end">
+                                <li>
+                                    <a class="dropdown-item d-flex align-items-center" href="#">
+                                        <span class="material-icons">person_outline</span> Profile
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item d-flex align-items-center" href="#">
+                                        <span class="material-icons">mail_outline</span> Messages
+                                    </a>
+                                </li>
+                                <li>
+                                    <hr class="dropdown-divider" />
+                                </li>
+                                <li>
+                                    <a class="dropdown-item d-flex align-items-center" href="#">
+                                        <span class="material-icons">logout</span> Logout
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <button class="btn btn-icon">
+                            <span class="material-icons">settings</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <main class="flex-grow-1 overflow-auto bg-light p-4">
+            <div class="row g-4">
+                <div class="col-12">
+                    <div class="bg-primary text-white rounded-3 shadow p-4 d-flex align-items-center justify-content-between"
+                        style="background-color: #3b82f6 !important;">
+                        <div>
+                            <h2 class="main-header-greeting">Good Morning, Olivia!</h2>
+                            <p class="main-header-subtext mt-1 mb-0">Here's what's happening with your store today.</p>
+                            <div class="mt-4 d-flex flex-column flex-sm-row">
+                                <div class="d-flex align-items-center me-sm-4 mb-3 mb-sm-0">
+                                    <div class="p-2 rounded-2 me-3" style="background-color: rgba(255,255,255,0.2);">
+                                        <span class="material-icons text-white">shopping_bag</span>
+                                    </div>
+                                    <div>
+                                        <p class="metric-value mb-0">86 New Orders</p>
+                                        <p class="metric-label mb-0">Awaiting processing</p>
+                                    </div>
+                                </div>
+                                <div class="d-flex align-items-center">
+                                    <div class="p-2 rounded-2 me-3" style="background-color: rgba(255,255,255,0.2);">
+                                        <span class="material-icons text-white">inventory_2</span>
+                                    </div>
+                                    <div>
+                                        <p class="metric-value mb-0">35 Products</p>
+                                        <p class="metric-label mb-0">Out of stock</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-none d-md-block">
+                            <img alt="Ecommerce character working on laptop" class="img-fluid"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuD7ETKROoc-DKatAxOlzEnBFQMea9bOmW8-GOA3AOWgu2q8P95JU0AaUQd161zxMrhqeYUu8cc41y6iY1Islm7Vfi8ZVS1xE_d3YxldwvJAhlo4G2mka9NcAOe3PTE_ftflNRD4mzHCxlnL99ZAI3i97Cr9Gllw4dGg6_-B9Ffzr7_K6fLXlKgJpwkTPR0PJay7CnTM10V5GbdF3h6VxRsm8CZggGYuGyldN-T3yPYC1bfH_QFPMmqP_KKUBhsbqhpWWe2VAZDqR4ae"
+                                style="max-height: 12rem;" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="bg-white p-4 rounded-3 shadow-sm">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <h3 class="card-title-custom">Total Orders</h3>
+                                <p class="card-value-custom mt-1 mb-0">$72,458 <span
+                                        class="card-percentage-custom text-danger">-7.8%</span></p>
+                            </div>
+                            <span class="small text-muted-light">Last 7 days</span>
+                        </div>
+                        <div class="mt-3" style="height: 5rem;">
+                            <div class="d-flex align-items-end h-100">
+                                <div class="bg-primary rounded-top mx-1"
+                                    style="width: 0.75rem; height: 60%; background-color: #3b82f6 !important;"></div>
+                                <div class="bg-primary rounded-top mx-1"
+                                    style="width: 0.75rem; height: 80%; background-color: #3b82f6 !important;"></div>
+                                <div class="bg-light rounded-top mx-1"
+                                    style="width: 0.75rem; height: 50%; background-color: #93c5fd !important;"></div>
+                                <div class="bg-primary rounded-top mx-1"
+                                    style="width: 0.75rem; height: 70%; background-color: #3b82f6 !important;"></div>
+                                <div class="bg-light rounded-top mx-1"
+                                    style="width: 0.75rem; height: 40%; background-color: #93c5fd !important;"></div>
+                                <div class="bg-primary rounded-top mx-1"
+                                    style="width: 0.75rem; height: 90%; background-color: #3b82f6 !important;"></div>
+                                <div class="bg-light rounded-top mx-1"
+                                    style="width: 0.75rem; height: 60%; background-color: #93c5fd !important;"></div>
+                            </div>
+                        </div>
+                        <div class="mt-3 d-flex justify-content-between card-footer-text-custom">
+                            <div>
+                                <span class="d-inline-block rounded-circle me-1"
+                                    style="width: 0.5rem; height: 0.5rem; background-color: #3b82f6;"></span> Completed
+                            </div>
+                            <div>62%</div>
+                        </div>
+                        <div class="d-flex justify-content-between card-footer-text-custom">
+                            <div>
+                                <span class="d-inline-block rounded-circle me-1"
+                                    style="width: 0.5rem; height: 0.5rem; background-color: #93c5fd;"></span> Pending
+                            </div>
+                            <div>38%</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="bg-white p-4 rounded-3 shadow-sm">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <h3 class="card-title-custom">Total Customers</h3>
+                                <p class="card-value-custom mt-1 mb-0">1,528 <span
+                                        class="card-percentage-custom text-success">+5.4</span></p>
+                            </div>
+                            <span class="small text-muted-light">Last 7 days</span>
+                        </div>
+                        <div class="mt-3" style="height: 5rem;">
+                            <svg class="w-100 h-100" viewBox="0 0 100 30">
+                                <path d="M 0 20 Q 15 5, 30 15 T 60 10 T 90 25 L 100 20" fill="none" stroke="#93c5fd"
+                                    stroke-width="1"></path>
+                                <path d="M 0 25 Q 15 15, 30 20 T 60 15 T 90 5 L 100 10" fill="none" stroke="#3b82f6"
+                                    stroke-width="1"></path>
+                            </svg>
+                        </div>
+                        <div class="mt-3 d-flex justify-content-between card-footer-text-custom">
+                            <span>1 June</span>
+                            <span>7 June</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="bg-white p-4 rounded-3 shadow-sm">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <h3 class="card-title-custom">Total Revenue</h3>
+                                <p class="card-value-custom mt-1 mb-0">$165,458 <span
+                                        class="card-percentage-custom text-success">+10%</span></p>
+                            </div>
+                            <span class="small text-muted-light">Last 30 days</span>
+                        </div>
+                        <div class="mt-3" style="height: 5rem;">
+                            <div class="d-flex align-items-end h-100">
+                                <div class="bg-primary rounded-top mx-1"
+                                    style="width: 0.75rem; height: 75%; background-color: #3b82f6 !important;"></div>
+                                <div class="bg-primary rounded-top mx-1"
+                                    style="width: 0.75rem; height: 60%; background-color: #3b82f6 !important;"></div>
+                                <div class="bg-secondary rounded-top mx-1"
+                                    style="width: 0.75rem; height: 25%; background-color: #e5e7eb !important;"></div>
+                                <div class="bg-primary rounded-top mx-1"
+                                    style="width: 0.75rem; height: 50%; background-color: #3b82f6 !important;"></div>
+                                <div class="bg-secondary rounded-top mx-1"
+                                    style="width: 0.75rem; height: 20%; background-color: #e5e7eb !important;"></div>
+                                <div class="bg-primary rounded-top mx-1"
+                                    style="width: 0.75rem; height: 80%; background-color: #3b82f6 !important;"></div>
+                                <div class="bg-secondary rounded-top mx-1"
+                                    style="width: 0.75rem; height: 15%; background-color: #e5e7eb !important;"></div>
+                            </div>
+                        </div>
+                        <div class="mt-3 d-flex justify-content-between card-footer-text-custom">
+                            <div>
+                                <span class="d-inline-block rounded-circle me-1"
+                                    style="width: 0.5rem; height: 0.5rem; background-color: #3b82f6;"></span> Fashion
+                            </div>
+                            <div>75%</div>
+                        </div>
+                        <div class="d-flex justify-content-between card-footer-text-custom">
+                            <div>
+                                <span class="d-inline-block rounded-circle me-1"
+                                    style="width: 0.5rem; height: 0.5rem; background-color: #e5e7eb;"></span> Others
+                            </div>
+                            <div>25%</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="bg-white p-4 rounded-3 shadow-sm">
+                        <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center mb-4">
+                            <h3 class="h5 fw-normal text-dark mb-3 mb-sm-0">Total Sales</h3>
+                            <div class="d-flex align-items-center">
+                                <button class="btn btn-sm me-2 button-text-custom"
+                                    style="background-color: #dbeafe; color: #1e40af;">Current Sale</button>
+                                <button class="btn btn-sm btn-light text-muted-light me-2 button-text-custom">Last Year
+                                    Sale</button>
+                                <select class="form-select form-select-sm me-2" style="width: auto;">
+                                    <option>Monthly</option>
+                                    <option>Weekly</option>
+                                    <option>Yearly</option>
+                                </select>
+                                <button class="btn btn-icon btn-sm">
+                                    <span class="material-icons">more_vert</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div style="height: 20rem;">
+                            <svg class="w-100 h-100" viewBox="0 0 500 150">
+                                <text class="chart-axis-label" x="5" y="15">$100K</text>
+                                <line stroke="#e5e7eb" stroke-dasharray="2,2" stroke-width="0.5" x1="30" x2="500"
+                                    y1="15" y2="15"></line>
+                                <text class="chart-axis-label" x="5" y="45">$80K</text>
+                                <line stroke="#e5e7eb" stroke-dasharray="2,2" stroke-width="0.5" x1="30" x2="500"
+                                    y1="45" y2="45"></line>
+                                <text class="chart-axis-label" x="5" y="75">$60K</text>
+                                <line stroke="#e5e7eb" stroke-dasharray="2,2" stroke-width="0.5" x1="30" x2="500"
+                                    y1="75" y2="75"></line>
+                                <text class="chart-axis-label" x="5" y="105">$40K</text>
+                                <line stroke="#e5e7eb" stroke-dasharray="2,2" stroke-width="0.5" x1="30" x2="500"
+                                    y1="105" y2="105"></line>
+                                <text class="chart-axis-label" x="5" y="135">$20K</text>
+                                <line stroke="#e5e7eb" stroke-width="0.5" x1="30" x2="500" y1="135" y2="135"></line>
+                                <text class="chart-axis-label" x="40" y="148">Jan</text>
+                                <text class="chart-axis-label" x="80" y="148">Feb</text>
+                                <text class="chart-axis-label" x="120" y="148">Mar</text>
+                                <text class="chart-axis-label" x="160" y="148">Apr</text>
+                                <text class="chart-axis-label" x="200" y="148">May</text>
+                                <text class="chart-axis-label" x="240" y="148">Jun</text>
+                                <text class="chart-axis-label" x="280" y="148">Jul</text>
+                                <text class="chart-axis-label" x="320" y="148">Aug</text>
+                                <text class="chart-axis-label" x="360" y="148">Sep</text>
+                                <text class="chart-axis-label" x="400" y="148">Oct</text>
+                                <text class="chart-axis-label" x="440" y="148">Nov</text>
+                                <text class="chart-axis-label" x="480" y="148">Dec</text>
+                                <path
+                                    d="M 40 100 C 60 90, 80 105, 100 95 S 140 80, 160 85 S 200 90, 220 80 S 260 95, 280 90 S 320 60, 340 50 S 380 20, 400 30 S 440 70, 460 60 L 480 75"
+                                    fill="none" stroke="#93c5fd" stroke-dasharray="3,3" stroke-width="1.5"></path>
+                                <path
+                                    d="M 40 115 C 60 105, 80 110, 100 105 S 140 100, 160 100 S 200 95, 220 90 S 260 100, 280 90 S 320 40, 340 35 S 380 60, 400 80 S 440 100, 460 90 L 480 105"
+                                    fill="none" stroke="#3b82f6" stroke-width="2"></path>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const sidebar = document.getElementById('sidebar');
+        const sidebarToggle = document.getElementById('sidebarToggle');
+        const mainContent = document.getElementById('mainContent');
+        const sidebarOverlay = document.getElementById('sidebarOverlay');
+        const sidebarCloseBtn = document.getElementById('sidebarCloseBtn');
+        function isMobileView() {
+            return window.innerWidth < 768;
+        }
+        function toggleSidebar() {
+            if (isMobileView()) {
+                sidebar.classList.toggle('open');
+                sidebarOverlay.classList.toggle('active', sidebar.classList.contains('open'));
+            } else {
+                sidebar.classList.toggle('collapsed');
+                if (sidebar.classList.contains('collapsed')) {
+                    mainContent.classList.remove('sidebar-open');
+                    mainContent.classList.add('sidebar-closed');
+                } else {
+                    mainContent.classList.remove('sidebar-closed');
+                    mainContent.classList.add('sidebar-open');
+                }
+            }
+        }
+        sidebarToggle.addEventListener('click', toggleSidebar);
+        sidebarOverlay.addEventListener('click', toggleSidebar);
+        sidebarCloseBtn.addEventListener('click', toggleSidebar);
+        function adjustLayout() {
+            if (isMobileView()) {
+                sidebar.classList.remove('collapsed');
+                sidebar.classList.remove('open');
+                mainContent.classList.remove('sidebar-open', 'sidebar-closed');
+                mainContent.style.marginLeft = '0';
+                sidebarOverlay.classList.remove('active');
+                sidebarCloseBtn.style.display = 'block';
+            } else {
+                if (sidebar.classList.contains('collapsed')) {
+                    mainContent.classList.remove('sidebar-open');
+                    mainContent.classList.add('sidebar-closed');
+                } else {
+                    mainContent.classList.remove('sidebar-closed');
+                    mainContent.classList.add('sidebar-open');
+                }
+                sidebar.classList.remove('open');
+                sidebarOverlay.classList.remove('active');
+                sidebarCloseBtn.style.display = 'none';
+            }
+        }
+        adjustLayout();
+        window.addEventListener('resize', adjustLayout);
+        document.querySelectorAll('.nav-link[data-bs-toggle="collapse"]').forEach(item => {
+            item.addEventListener('click', function () {
+                const icon = this.querySelector('.ms-auto.small');
+                if (icon) {
+                    setTimeout(() => {
+                        if (this.getAttribute('aria-expanded') === 'true') {
+                            icon.textContent = 'expand_less';
+                        } else {
+                            icon.textContent = 'expand_more';
+                        }
+                    }, 0);
+                }
+            })
+        });
+    </script>
+
+</body>
+
+</html>
