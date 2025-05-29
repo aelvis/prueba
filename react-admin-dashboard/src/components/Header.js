@@ -17,12 +17,12 @@ const Header = (props) => {
     // marginLeft will be handled by parent div's class in App.js
   };
   
-  const searchInputStyle = {
-    // width: '300px', // Can be responsive or fixed
-    borderColor: '#374151', // from App.css
-    backgroundColor: '#1f2937', // from App.css
-    color: '#ffffff', // from App.css
-  };
+  // const searchInputStyle = { // Removed as search bar is removed
+  //   // width: '300px', // Can be responsive or fixed
+  //   borderColor: '#374151', // from App.css
+  //   backgroundColor: '#1f2937', // from App.css
+  //   color: '#ffffff', // from App.css
+  // };
 
   return (
     // The className "header" is from App.css for specific header styling if needed beyond react-bootstrap
@@ -38,23 +38,10 @@ const Header = (props) => {
                  <i className="material-icons">menu</i> {/* Using Material Icon for menu toggle */}
             </Button>
           </Col>
-          <Col xs={true} md={4} lg={3}> {/* Search bar takes available space, adjust col size as needed */}
-            <InputGroup>
-              <InputGroup.Text style={{backgroundColor: searchInputStyle.backgroundColor, borderColor: searchInputStyle.borderColor }}>
-                <i className="bi bi-search" style={{color: '#9ca3af'}}></i>
-              </InputGroup.Text>
-              <Form.Control
-                type="text"
-                placeholder="Search for..."
-                aria-label="Search"
-                className="search-input" // class from App.css
-                style={searchInputStyle}
-              />
-            </InputGroup>
-          </Col>
+          {/* Search Bar Col removed */}
 
           {/* Header Icons and User Dropdown - aligned to the right */}
-          <Col md="auto" className="ms-auto"> {/* ms-auto pushes this column to the right */}
+          <Col xs="auto" className="ms-auto"> {/* Explicitly xs="auto" and ms-auto to push to right */}
             <Nav className="flex-row align-items-center"> {/* Use flex-row for horizontal items */}
               <Nav.Item className="me-2">
                 <Nav.Link href="#!" className="text-white position-relative btn-icon">
