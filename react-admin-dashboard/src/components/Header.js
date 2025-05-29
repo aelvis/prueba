@@ -1,5 +1,6 @@
 import React from 'react';
 import { Container, Row, Col, Button, Dropdown, Form, InputGroup, Nav } from 'react-bootstrap';
+import { Link } from 'react-router-dom'; // Import Link
 import 'bootstrap-icons/font/bootstrap-icons.css'; // For icons other than sidebar
 
 const Header = (props) => {
@@ -67,11 +68,11 @@ const Header = (props) => {
                   <span className="d-none d-sm-inline-block">mdo</span>
                 </Dropdown.Toggle>
                 <Dropdown.Menu variant="dark" className="text-small shadow"> {/* Applied variant="dark" for consistency if header is dark */}
-                  <Dropdown.Item href="#!"><i className="material-icons">person_outline</i>New project...</Dropdown.Item>
-                  <Dropdown.Item href="#!"><i className="material-icons">settings</i>Settings</Dropdown.Item>
-                  <Dropdown.Item href="#!"><i className="material-icons">badge</i>Profile</Dropdown.Item>
+                  <Dropdown.Item as={Link} to="/profile"><i className="material-icons">person_outline</i>New project...</Dropdown.Item> {/* Example, might be different page */}
+                  <Dropdown.Item as={Link} to="/settings"><i className="material-icons">settings</i>Settings</Dropdown.Item> {/* Assuming a /settings route */}
+                  <Dropdown.Item as={Link} to="/profile"><i className="material-icons">badge</i>Profile</Dropdown.Item>
                   <Dropdown.Divider />
-                  <Dropdown.Item href="#!"><i className="material-icons">logout</i>Sign out</Dropdown.Item>
+                  <Dropdown.Item href="#!">Sign out</Dropdown.Item> {/* Sign out is usually not a Link */}
                 </Dropdown.Menu>
               </Dropdown>
             </Nav>
