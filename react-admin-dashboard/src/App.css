@@ -282,15 +282,15 @@ Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
 /* Responsive adjustments */
 @media (max-width: 767.98px) {
     .sidebar {
-        margin-left: -280px; /* Ensure it's hidden by default, matching JS width */
+        /* On mobile, sidebar 'left' style is changed by JS, not margin */
     }
 
-    .sidebar.open { /* This class would be toggled by JS */
-        margin-left: 0;
+    .sidebar.open { 
+        /* On mobile, sidebar 'left: 0' is set by JS */
     }
     
-    .main-content-area, .header-component {
-        margin-left: 0 !important; /* Full width when sidebar is hidden or overlaid */
+    .content-wrapper { /* On mobile, content wrapper always takes full width */
+        margin-left: 0 !important; 
     }
 
     .sidebar-close-btn {
@@ -299,12 +299,14 @@ Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
 }
 
 @media (min-width: 768px) {
-    .main-content-area.sidebar-open, .header-component.sidebar-open {
-        margin-left: 280px; /* Adjust to match Sidebar.js width */
+    .content-wrapper.sidebar-open {
+        margin-left: 280px; /* Sidebar width */
+        transition: margin-left 0.3s ease-in-out;
     }
 
-    .main-content-area.sidebar-closed, .header-component.sidebar-closed {
+    .content-wrapper.sidebar-closed {
         margin-left: 0;
+        transition: margin-left 0.3s ease-in-out;
     }
 }
 
@@ -622,4 +624,5 @@ p { font-size: 0.95rem; line-height: 1.55; font-weight: 300; }
     flex-direction: column;
     flex-grow: 1;
     /* Potentially add overflow-x: hidden; if content might cause horizontal scroll */
+    /* Transition for margin-left is now part of the .content-wrapper.sidebar-open/closed rules */
 }
