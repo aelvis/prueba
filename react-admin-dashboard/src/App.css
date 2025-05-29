@@ -20,7 +20,7 @@ Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
 
 .sidebar {
     /* width: 256px; */ /* Control width via inline style in Sidebar.js */
-    transition: margin-left 0.3s ease-in-out;
+    /* transition: margin-left 0.3s ease-in-out; */ /* Removed, as 'left' is transitioned inline */
     background-color: #111827 !important; /* Ensure high specificity */
     color: #ffffff !important;
     /* margin-left: 0; */ /* Handled by state/logic in React for toggling */
@@ -31,9 +31,9 @@ Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
 }
 
 /* This class will be toggled on the Sidebar component based on state */
-.sidebar.collapsed {
-    margin-left: -280px; /* Adjust to match sidebar width from JS */
-}
+/* .sidebar.collapsed { */
+    /* margin-left: -280px; */ /* Removed, as 'left' is controlled inline by Sidebar.jsx */
+/* } */
 
 .sidebar-header {
     position: relative;
