@@ -13,8 +13,8 @@ const MainContent = (props) => {
     paddingRight: '20px', // Padding on the sides
     backgroundColor: '#f8f9fa', // A light background for the content area
     flexGrow: 1, // Ensure it takes up available space
-    transition: 'margin-left 0.3s ease-in-out',
-    marginLeft: isMobileView ? '0' : (isDesktopSidebarCollapsed ? '0' : '280px'),
+    // transition: 'margin-left 0.3s ease-in-out', // Transition is now on content-wrapper
+    // marginLeft is now handled by the parent .content-wrapper's CSS rules
     // Header height consideration: If header is fixed and has known height, add paddingTop here or ensure header doesn't overlap
     // For now, assuming header is part of the scrollable content or its height is handled by contentWrapper in App.js
     minHeight: 'calc(100vh - 70px)', // Assuming header is roughly 70px. Adjust as needed.

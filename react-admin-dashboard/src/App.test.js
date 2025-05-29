@@ -1,8 +1,31 @@
 import { render, screen } from '@testing-library/react';
 import App from './App';
 
-test('renders learn react link', () => {
-  render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+// Mock child components to isolate App.js tests and avoid deep rendering issues
+jest.mock('./components/Sidebar', () => () => <aside data-testid="sidebar">Mock Sidebar</aside>);
+jest.mock('./components/Header', () => () => <header data-testid="header">Mock Header</header>);
+jest.mock('./components/MainContent', () => () => <main data-testid="main-content">Mock MainContent</main>);
+
+describe('App Component', () => {
+  test('renders without crashing', () => {
+    render(<App />);
+  });
+
+  test('renders Sidebar component', () => {
+    render(<App />);
+    expect(screen.getByTestId('sidebar')).toBeInTheDocument();
+    expect(screen.getByText('Mock Sidebar')).toBeInTheDocument();
+  });
+
+  test('renders Header component', () => {
+    render(<App />);
+    expect(screen.getByTestId('header')).toBeInTheDocument();
+    expect(screen.getByText('Mock Header')).toBeInTheDocument();
+  });
+
+  test('renders MainContent component', () => {
+    render(<App />);
+    expect(screen.getByTestId('main-content')).toBeInTheDocument();
+    expect(screen.getByText('Mock MainContent')).toBeInTheDocument();
+  });
 });
