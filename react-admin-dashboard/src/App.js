@@ -1,7 +1,10 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { Routes, Route } from 'react-router-dom'; // Import Routes and Route
 import Sidebar from './components/Sidebar';
 import Header from './components/Header';
 import MainContent from './components/MainContent';
+import Dashboard from './pages/Dashboard'; // Import Dashboard page
+import Profile from './pages/Profile'; // Import Profile page
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
@@ -81,10 +84,23 @@ function App() {
         }`}
       >
         <Header toggleSidebar={handleSidebarToggle} />
-        <MainContent 
-            isDesktopSidebarCollapsed={isDesktopSidebarCollapsed}
-            isMobileView={isMobileView}
-        />
+        {/* MainContent is now a layout route that contains the Outlet */}
+        <Routes>
+          <Route 
+            element={
+              <MainContent 
+                isDesktopSidebarCollapsed={isDesktopSidebarCollapsed} 
+                isMobileView={isMobileView} 
+              />
+            }
+          >
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/profile" element={<Profile />} />
+            {/* Example for a "Not Found" page if you add one: 
+            <Route path="*" element={<div>Page Not Found</div>} /> */}
+          </Route>
+        </Routes>
       </div>
     </div>
   );

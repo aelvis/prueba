@@ -1,5 +1,6 @@
 import React, { useState } from 'react'; // Keep useState for submenus if not already handled
 import { Nav, Collapse, Dropdown, Button } from 'react-bootstrap';
+import { Link, NavLink as RouterNavLink } from 'react-router-dom'; // Import Link and NavLink
 // Material Icons are linked in public/index.html
 
 const Sidebar = (props) => {
@@ -29,16 +30,15 @@ const Sidebar = (props) => {
   };
 
 
-  const navLinkStyle = {
+  const navLinkStyle = { // General style for Nav.Link, applied via style prop
     cursor: 'pointer',
-    color: '#9ca3af', // From App.css .sidebar .nav-link
+    color: '#9ca3af', 
+    // other styles from App.css .sidebar .nav-link if needed directly
   };
   
-  const activeNavLinkStyle = { // For active items if not handled by .active class from react-bootstrap
-    ...navLinkStyle,
-    color: '#ffffff', // From App.css
-    backgroundColor: '#1f2937', // From App.css
-  };
+  // activeClassName or activeStyle would be used with NavLink for dynamic active states
+  // react-bootstrap's Nav.Link active prop might conflict or need careful handling
+  // For simplicity, we can let react-router-dom's NavLink handle its own active state via a class.
 
   const iconRotationStyle = (isSubmenuOpen) => ({
     transform: isSubmenuOpen ? 'rotate(180deg)' : 'none',
@@ -59,17 +59,16 @@ const Sidebar = (props) => {
         )}
       </div>
       <hr className="text-secondary" />
-      <Nav variant="pills" className="flex-column mb-auto p-2"> {/* Added p-2 for padding around nav */}
+      <Nav variant="pills" className="flex-column mb-auto p-2 sidebar-nav"> {/* Added p-2 and custom class */}
         <Nav.Item>
-          {/* Example of an active Nav.Link, ensure .active class applies styles from App.css */}
-          <Nav.Link href="#!" active style={activeNavLinkStyle}>
+          <Nav.Link as={RouterNavLink} to="/dashboard" style={navLinkStyle} className="d-flex align-items-center">
             <i className="material-icons me-2">speed</i>
             Dashboard
           </Nav.Link>
         </Nav.Item>
         
         <Nav.Item>
-          <Nav.Link onClick={() => setOpenPages(!openPages)} aria-controls="pages-collapse" aria-expanded={openPages} style={navLinkStyle}>
+          <Nav.Link onClick={() => setOpenPages(!openPages)} aria-controls="pages-collapse" aria-expanded={openPages} style={navLinkStyle} className="d-flex align-items-center">
             <i className="material-icons me-2">article</i>
             Pages
             <i className="material-icons float-end ms-auto" style={iconRotationStyle(openPages)}>expand_more</i>
@@ -77,16 +76,22 @@ const Sidebar = (props) => {
           <Collapse in={openPages}>
             <div id="pages-collapse" className="submenu">
               <Nav className="flex-column ms-3">
-                <Nav.Item><Nav.Link href="#!" style={navLinkStyle}>Profile</Nav.Link></Nav.Item>
-                <Nav.Item><Nav.Link href="#!" style={navLinkStyle}>Settings</Nav.Link></Nav.Item>
-                <Nav.Item><Nav.Link href="#!" style={navLinkStyle}>Billing</Nav.Link></Nav.Item>
+                <Nav.Item>
+                  <Nav.Link as={Link} to="/profile" style={navLinkStyle} className="d-flex align-items-center">Profile</Nav.Link>
+                </Nav.Item>
+                <Nav.Item>
+                  <Nav.Link as={Link} to="/settings" style={navLinkStyle} className="d-flex align-items-center">Settings</Nav.Link>{/* Assuming a /settings route might exist */}
+                </Nav.Item>
+                <Nav.Item>
+                  <Nav.Link as={Link} to="/billing" style={navLinkStyle} className="d-flex align-items-center">Billing</Nav.Link>{/* Assuming a /billing route might exist */}
+                </Nav.Item>
               </Nav>
             </div>
           </Collapse>
         </Nav.Item>
 
         <Nav.Item>
-          <Nav.Link onClick={() => setOpenAuth(!openAuth)} aria-controls="auth-collapse" aria-expanded={openAuth} style={navLinkStyle}>
+          <Nav.Link onClick={() => setOpenAuth(!openAuth)} aria-controls="auth-collapse" aria-expanded={openAuth} style={navLinkStyle} className="d-flex align-items-center">
             <i className="material-icons me-2">shield</i>
             Authentication
             <i className="material-icons float-end ms-auto" style={iconRotationStyle(openAuth)}>expand_more</i>
@@ -94,16 +99,17 @@ const Sidebar = (props) => {
           <Collapse in={openAuth}>
             <div id="auth-collapse" className="submenu">
               <Nav className="flex-column ms-3">
-                <Nav.Item><Nav.Link href="#!" style={navLinkStyle}>Sign In</Nav.Link></Nav.Item>
-                <Nav.Item><Nav.Link href="#!" style={navLinkStyle}>Sign Up</Nav.Link></Nav.Item>
-                <Nav.Item><Nav.Link href="#!" style={navLinkStyle}>Forgot Password</Nav.Link></Nav.Item>
+                {/* Example: these could also be Links if they are internal pages */}
+                <Nav.Item><Nav.Link href="#!" style={navLinkStyle} className="d-flex align-items-center">Sign In</Nav.Link></Nav.Item>
+                <Nav.Item><Nav.Link href="#!" style={navLinkStyle} className="d-flex align-items-center">Sign Up</Nav.Link></Nav.Item>
+                <Nav.Item><Nav.Link href="#!" style={navLinkStyle} className="d-flex align-items-center">Forgot Password</Nav.Link></Nav.Item>
               </Nav>
             </div>
           </Collapse>
         </Nav.Item>
 
         <Nav.Item>
-          <Nav.Link onClick={() => setOpenComponents(!openComponents)} aria-controls="components-collapse" aria-expanded={openComponents} style={navLinkStyle}>
+          <Nav.Link onClick={() => setOpenComponents(!openComponents)} aria-controls="components-collapse" aria-expanded={openComponents} style={navLinkStyle} className="d-flex align-items-center">
             <i className="material-icons me-2">grid_view</i>
             Components
             <i className="material-icons float-end ms-auto" style={iconRotationStyle(openComponents)}>expand_more</i>
@@ -111,17 +117,17 @@ const Sidebar = (props) => {
           <Collapse in={openComponents}>
             <div id="components-collapse" className="submenu">
               <Nav className="flex-column ms-3">
-                <Nav.Item><Nav.Link href="#!" style={navLinkStyle}>Alerts</Nav.Link></Nav.Item>
-                <Nav.Item><Nav.Link href="#!" style={navLinkStyle}>Buttons</Nav.Link></Nav.Item>
-                <Nav.Item><Nav.Link href="#!" style={navLinkStyle}>Cards</Nav.Link></Nav.Item>
+                <Nav.Item><Nav.Link href="#!" style={navLinkStyle} className="d-flex align-items-center">Alerts</Nav.Link></Nav.Item>
+                <Nav.Item><Nav.Link href="#!" style={navLinkStyle} className="d-flex align-items-center">Buttons</Nav.Link></Nav.Item>
+                <Nav.Item><Nav.Link href="#!" style={navLinkStyle} className="d-flex align-items-center">Cards</Nav.Link></Nav.Item>
               </Nav>
             </div>
           </Collapse>
         </Nav.Item>
-
-        <Nav.Item><Nav.Link href="#!" style={navLinkStyle}><i className="material-icons me-2">bar_chart</i>Charts</Nav.Link></Nav.Item>
-        <Nav.Item><Nav.Link href="#!" style={navLinkStyle}><i className="material-icons me-2">table_rows</i>Tables</Nav.Link></Nav.Item>
-        <Nav.Item><Nav.Link href="#!" style={navLinkStyle}><i className="material-icons me-2">info</i>About</Nav.Link></Nav.Item>
+        {/* Assuming these are not internal page routes for now, keep as href="#!" or update to 'to' if they become routes */}
+        <Nav.Item><Nav.Link href="#!" style={navLinkStyle} className="d-flex align-items-center"><i className="material-icons me-2">bar_chart</i>Charts</Nav.Link></Nav.Item>
+        <Nav.Item><Nav.Link href="#!" style={navLinkStyle} className="d-flex align-items-center"><i className="material-icons me-2">table_rows</i>Tables</Nav.Link></Nav.Item>
+        <Nav.Item><Nav.Link href="#!" style={navLinkStyle} className="d-flex align-items-center"><i className="material-icons me-2">info</i>About</Nav.Link></Nav.Item>
       </Nav>
       <hr className="text-secondary"/>
       <div className="p-3"> {/* Wrapper for dropdown for consistent padding */}
@@ -131,11 +137,11 @@ const Sidebar = (props) => {
             <strong>mdo</strong>
           </Dropdown.Toggle>
           <Dropdown.Menu variant="dark" className="text-small shadow" aria-labelledby="dropdownUser1">
-            <Dropdown.Item href="#!">New project...</Dropdown.Item>
-            <Dropdown.Item href="#!">Settings</Dropdown.Item>
-            <Dropdown.Item href="#!">Profile</Dropdown.Item>
+            <Dropdown.Item as={Link} to="/profile">New project...</Dropdown.Item> {/* Example, might be different page */}
+            <Dropdown.Item as={Link} to="/settings">Settings</Dropdown.Item> {/* Assuming a /settings route */}
+            <Dropdown.Item as={Link} to="/profile">Profile</Dropdown.Item>
             <Dropdown.Divider />
-            <Dropdown.Item href="#!">Sign out</Dropdown.Item>
+            <Dropdown.Item href="#!">Sign out</Dropdown.Item> {/* Sign out is usually not a Link */}
           </Dropdown.Menu>
         </Dropdown>
       </div>
