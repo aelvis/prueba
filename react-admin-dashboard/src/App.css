@@ -1,0 +1,625 @@
+body {
+    font-family: "Lato", -apple-system, BlinkMacSystemFont, "Segoe UI",
+Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+    background-color: #f3f4f6;
+    font-size: 0.95rem;
+    font-weight: 300;
+}
+
+/* Styles for the main application container to mimic original body styles */
+/* This can be applied to the main div in App.js or a wrapper */
+.app-container {
+    font-family: "Lato", -apple-system, BlinkMacSystemFont, "Segoe UI",
+Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+    background-color: #f3f4f6;
+    font-size: 0.95rem;
+    font-weight: 300;
+    min-height: 100vh; /* Ensure it takes full viewport height */
+}
+
+
+.sidebar {
+    /* width: 256px; */ /* Control width via inline style in Sidebar.js */
+    transition: margin-left 0.3s ease-in-out;
+    background-color: #111827 !important; /* Ensure high specificity */
+    color: #ffffff !important;
+    /* margin-left: 0; */ /* Handled by state/logic in React for toggling */
+    /* position: fixed; */ /* Handled by inline style in Sidebar.js */
+    /* top: 0; */
+    /* bottom: 0; */
+    /* z-index: 1000; */ /* Handled by inline style in Sidebar.js */
+}
+
+/* This class will be toggled on the Sidebar component based on state */
+.sidebar.collapsed {
+    margin-left: -280px; /* Adjust to match sidebar width from JS */
+}
+
+.sidebar-header {
+    position: relative;
+    height: 60px; /* Can be adjusted or made dynamic */
+    display: flex; /* Added for alignment if needed */
+    align-items: center; /* Added for alignment */
+    justify-content: center; /* Added for alignment */
+}
+
+.sidebar-logo {
+    color: #ffffff;
+    font-size: 1.15rem;
+    font-weight: 400;
+    text-decoration: none; /* Ensure it's not underlined if it's an <a> tag */
+}
+.sidebar-logo:hover {
+    color: #f0f0f0; /* Example hover effect */
+}
+
+
+/* General NavLink styling within Sidebar */
+.sidebar .nav-link {
+    color: #adb5bd; /* Lighter text color for better contrast on dark bg */
+    font-weight: 400;
+    border-radius: 0.375rem;
+    transition: background-color 0.2s ease, color 0.2s ease;
+    font-size: 0.9rem;
+    padding: 0.75rem 1rem; /* Consistent padding */
+    display: flex; /* For aligning icon and text */
+    align-items: center; /* For aligning icon and text */
+}
+
+.sidebar .nav-link:hover {
+    background-color: #1f2937;
+    color: #ffffff;
+}
+
+/* Styling for active NavLink */
+.sidebar .nav-link.active {
+    background-color: #1f2937; /* Darker background for active state */
+    color: #ffffff !important; /* Ensure text is white */
+    font-weight: 500; /* Slightly bolder font for active state */
+}
+
+/* Styling for Material Icons within NavLinks */
+.sidebar .nav-link .material-icons {
+    vertical-align: middle;
+    color: #9ca3af; /* Default icon color */
+    font-size: 1.2rem; /* Standard icon size */
+    margin-right: 0.75rem; /* Space between icon and text */
+}
+
+/* Icon color for active or hovered NavLinks */
+.sidebar .nav-link.active .material-icons,
+.sidebar .nav-link:hover .material-icons {
+    color: #ffffff;
+}
+
+/* Submenu specific styling */
+.submenu {
+    padding-left: 1.5rem; /* Indentation for submenu items */
+    background-color: rgba(0,0,0,0.1); /* Slightly different background for submenu section */
+}
+
+.submenu .nav-link {
+    font-size: 0.825rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    font-weight: 300;
+    color: #ced4da; /* Slightly dimmer color for submenu items */
+}
+
+.submenu .nav-link:hover {
+    color: #ffffff;
+    background-color: #2c3e50; /* Different hover for submenu */
+}
+
+
+.submenu .nav-link .material-icons {
+    font-size: 0.95rem; /* Smaller icons for submenu */
+    margin-right: 0.5rem;
+}
+
+/* Main Content Area - ensure it doesn't overlap with fixed sidebar */
+.main-content-area { /* Renamed to avoid conflict if .main-content is too generic */
+    /* transition: margin-left 0.3s ease-in-out; */ /* Handled by inline styles in MainContent.js */
+    /* width: 100%; */ /* Will take remaining width */
+    /* margin-left: 280px; */ /* Adjust this based on Sidebar width, handled by inline styles in MainContent.js */
+    /* padding-top: 70px; */ /* Adjust based on Header height, handled by inline styles in MainContent.js */
+    /* background-color: #f8f9fa; */ /* Set in MainContent.js inline style */
+}
+
+/* Header specific styles */
+.header-component { /* Renamed to avoid conflict if .header is too generic */
+    /* background-color: #ffffff; */ /* Set in Header.js inline style or default bootstrap */
+    /* color: #333; */ /* Default text color */
+    /* box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); */ /* Applied via className="shadow-sm" */
+    /* margin-left: 280px; */ /* Adjust this based on Sidebar width, handled by inline styles in Header.js */
+    /* position: sticky; */ /* Handled by inline styles in Header.js */
+    /* top: 0; */
+    /* z-index: 99; */
+}
+
+/* General button icon styling, if not using react-bootstrap Button specific styling */
+.btn-icon {
+    color: #6c757d; /* Bootstrap's default icon/text muted color */
+    background-color: transparent;
+    border: none;
+}
+
+.btn-icon:hover {
+    color: #343a40; /* Darker on hover */
+}
+
+/* Search input styling - assuming react-bootstrap Form.Control is used */
+.search-input.form-control { /* Target specific Form.Control */
+    padding-left: 2.5rem; /* Space for an icon if you add one inside */
+    border-color: #ced4da; /* Standard Bootstrap border color */
+    background-color: #fff;
+    color: #495057; /* Standard Bootstrap input text color */
+    font-size: 0.875rem; /* Slightly smaller font */
+}
+
+.search-input.form-control::placeholder {
+    color: #6c757d; /* Bootstrap's placeholder color */
+}
+
+.search-input.form-control:focus {
+    border-color: #80bdff; /* Bootstrap's focus border color */
+    background-color: #fff;
+    color: #495057;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* Bootstrap's focus shadow */
+}
+
+/* Notification badge on icons */
+.notification-badge-custom { /* Renamed to avoid conflicts with Bootstrap's badge */
+    position: absolute;
+    top: -5px; /* Adjust for better positioning */
+    right: -5px; /* Adjust for better positioning */
+    padding: 0.25em 0.4em; /* Smaller padding */
+    font-size: 0.7em; /* Smaller font size */
+    font-weight: bold;
+    line-height: 1;
+    color: #fff;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    background-color: #dc3545; /* Bootstrap's danger color */
+    border-radius: 50%; /* Make it circular */
+    /* border: 2px solid #fff; */ /* Optional: if header bg is not white */
+}
+
+
+.text-muted-light {
+    color: #9ca3af !important;
+    font-size: 0.78rem;
+    font-weight: 300;
+}
+
+.sidebar-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999; /* Below sidebar but above content */
+    display: none; /* Controlled by state in App.js or Sidebar.js */
+}
+
+.sidebar-overlay.active {
+    display: block;
+}
+
+.sidebar-close-btn { /* For mobile view, if used */
+    display: none; /* Typically hidden on desktop */
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    z-index: 1001; /* Above sidebar content */
+    color: #ffffff;
+    background: transparent;
+    border: none;
+    font-size: 1.5rem;
+}
+
+
+/* Dropdown specific styles for user avatar in Sidebar/Header */
+.avatar-dropdown .dropdown-menu {
+    border-radius: 0.5rem;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    border: 1px solid #dee2e6; /* Bootstrap's default border */
+    background-color: #fff; /* Standard dropdown background */
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    min-width: 10rem;
+}
+
+.avatar-dropdown .dropdown-item {
+    padding: 0.5rem 1rem;
+    color: #333; /* Standard text color */
+    font-size: 0.9rem;
+    font-weight: 400; /* Normal weight for dropdown items */
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.avatar-dropdown .dropdown-item:hover {
+    background-color: #f8f9fa; /* Bootstrap's light hover */
+    color: #16181b;
+}
+
+.avatar-dropdown .dropdown-item .material-icons,
+.avatar-dropdown .dropdown-item .bi { /* Support for both icon sets */
+    font-size: 1.075rem;
+    vertical-align: middle;
+    margin-right: 0.5rem;
+    color: #6c757d; /* Muted icon color */
+}
+
+.avatar-dropdown .dropdown-item:hover .material-icons,
+.avatar-dropdown .dropdown-item:hover .bi {
+    color: #333; /* Darker icon on hover */
+}
+
+.avatar-dropdown .dropdown-divider {
+    margin: 0.5rem 0;
+    border-top: 1px solid #dee2e6; /* Bootstrap's divider color */
+}
+
+/* Keyframes (if any specific are needed beyond react-bootstrap's) */
+@keyframes slideDownExpand {
+    from {
+        opacity: 0;
+        transform: scaleY(0.95) translateY(-10px); /* Smoother animation */
+    }
+    to {
+        opacity: 1;
+        transform: scaleY(1) translateY(0);
+    }
+}
+.collapse.show, .collapsing {
+    animation: slideDownExpand 0.3s ease-out;
+}
+
+
+/* Responsive adjustments */
+@media (max-width: 767.98px) {
+    .sidebar {
+        margin-left: -280px; /* Ensure it's hidden by default, matching JS width */
+    }
+
+    .sidebar.open { /* This class would be toggled by JS */
+        margin-left: 0;
+    }
+    
+    .main-content-area, .header-component {
+        margin-left: 0 !important; /* Full width when sidebar is hidden or overlaid */
+    }
+
+    .sidebar-close-btn {
+        display: block; /* Show close button on mobile */
+    }
+}
+
+@media (min-width: 768px) {
+    .main-content-area.sidebar-open, .header-component.sidebar-open {
+        margin-left: 280px; /* Adjust to match Sidebar.js width */
+    }
+
+    .main-content-area.sidebar-closed, .header-component.sidebar-closed {
+        margin-left: 0;
+    }
+}
+
+/* Make sure text-dark in dropdowns is visible on dark sidebar/header if those are themed dark */
+.avatar-dropdown .dropdown-menu.dropdown-menu-dark .text-dark {
+    color: #f8f9fa !important; /* Light text for dark dropdowns */
+}
+.avatar-dropdown .dropdown-menu.dropdown-menu-dark .dropdown-item:hover {
+    background-color: #343a40; /* Darker hover for dark dropdowns */
+}
+
+
+/* General Typography from original, adjust as needed */
+h1, .h1 { font-size: 1.9rem; font-weight: 400; }
+h2, .h2 { font-size: 1.65rem; font-weight: 400; }
+h3, .h3 { font-size: 1.4rem; font-weight: 400; } /* Bootstrap h3 is 1.75rem, this is smaller */
+h4, .h4 { font-size: 1.18rem; font-weight: 400; } /* Bootstrap h4 is 1.5rem */
+h5, .h5 { font-size: 1.075rem; font-weight: 400; } /* Bootstrap h5 is 1.25rem */
+h6, .h6 { font-size: 0.95rem; font-weight: 400; } /* Bootstrap h6 is 1rem */
+
+p { font-size: 0.95rem; line-height: 1.55; font-weight: 300; }
+.small, small { font-size: 0.825rem; font-weight: 300; } /* Bootstrap small is 0.875em */
+
+.text-uppercase { letter-spacing: 0.04em; }
+.fw-light { font-weight: 300 !important; }
+.fw-normal { font-weight: 400 !important; }
+/* .fw-medium, .fw-semibold are not standard Bootstrap 5, use .fw-normal or .fw-bold or custom if needed */
+.fw-bold { font-weight: 700 !important; }
+
+
+.text-white-75 { color: rgba(255, 255, 255, 0.75) !important; font-size: 0.9rem; font-weight: 300; }
+
+/* Custom card styles from original - adapt to React Bootstrap Card components */
+.card-title-custom { font-size: 0.95rem; font-weight: 400; color: #4b5563; }
+.card-value-custom { font-size: 1.65rem; font-weight: 400; color: #111827; }
+.card-percentage-custom { font-size: 0.825rem; font-weight: 400; }
+.card-footer-text-custom { font-size: 0.78rem; color: #6b7280; font-weight: 300; }
+
+/* Header specific text styles from original */
+.main-header-greeting { font-size: 1.4rem; font-weight: 400; }
+.main-header-subtext { font-size: 0.95rem; color: rgba(255, 255, 255, 0.85); font-weight: 300; }
+
+.metric-value { font-size: 1.18rem; font-weight: 400; }
+.metric-label { font-size: 0.825rem; color: rgba(255, 255, 255, 0.85); font-weight: 300; }
+
+/* Chart specific styles - if using a charting library, it might have its own styling options */
+.chart-axis-label { font-size: 0.72rem; fill: #6b7280; font-weight: 300; }
+
+/* Custom button text */
+.button-text-custom { font-size: 0.825rem; font-weight: 400; }
+
+/* Custom form select size */
+.form-select-sm { font-size: 0.825rem; font-weight: 300; }
+
+/* Ensure Bootstrap icon styles don't conflict with Material Icons if both are used */
+.material-icons {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px; /* Preferred icon size */
+  display: inline-block;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+  /* Support for all WebKit browsers. */
+  -webkit-font-smoothing: antialiased;
+  /* Support for Safari and Chrome. */
+  text-rendering: optimizeLegibility;
+  /* Support for Firefox. */
+  -moz-osx-font-smoothing: grayscale;
+  /* Support for IE. */
+  font-feature-settings: 'liga';
+}
+
+/* Styles for react-bootstrap components to match the original HTML's appearance more closely */
+
+/* Sidebar Nav.Link adjustments */
+.sidebar .nav-link {
+    padding: 10px 15px; /* Adjust padding to match original */
+    font-size: 14px; /* Match original font size */
+    color: #c5c5c5; /* Match original text color */
+}
+
+.sidebar .nav-link:hover {
+    background-color: #343a40; /* Match original hover background */
+    color: #fff; /* Match original hover text color */
+}
+
+.sidebar .nav-link.active {
+    background-color: #0d6efd; /* Match original active background */
+    color: #fff; /* Match original active text color */
+}
+
+.sidebar .nav-link .material-icons {
+    margin-right: 10px; /* Adjust icon margin */
+    font-size: 20px; /* Adjust icon size */
+    color: #888; /* Adjust icon color */
+}
+
+.sidebar .nav-link.active .material-icons,
+.sidebar .nav-link:hover .material-icons {
+    color: #fff; /* Match original active/hover icon color */
+}
+
+/* Submenu adjustments */
+.sidebar .submenu .nav-link {
+    padding-left: 30px; /* Adjust submenu indentation */
+    font-size: 13px; /* Adjust submenu font size */
+}
+
+/* Header component adjustments */
+.header-component {
+    padding: 10px 15px; /* Adjust header padding */
+    background-color: #fff; /* Match original header background */
+    border-bottom: 1px solid #dee2e6; /* Match original header border */
+}
+
+.header-component .form-control.search-input {
+    height: calc(1.5em + .5rem + 2px); /* Adjust search input height */
+    padding: .25rem .5rem; /* Adjust search input padding */
+    font-size: .875rem; /* Adjust search input font size */
+}
+
+.header-component .btn-icon {
+    color: #6c757d; /* Match original icon button color */
+}
+.header-component .btn-icon:hover {
+    color: #000; /* Match original icon button hover color */
+}
+
+/* MainContent Card adjustments */
+.main-content-area .card {
+    border: none; /* Remove card border if original didn't have it */
+    box-shadow: 0 0 15px rgba(0,0,0,0.1); /* Add shadow to match original */
+}
+
+.main-content-area .card-header {
+    background-color: #f8f9fa; /* Match original card header background */
+    border-bottom: 1px solid #dee2e6; /* Match original card header border */
+}
+
+/* Apply some of the original body styles to a wrapper div in App.js */
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #f3f4f6; /* Original body background */
+}
+
+.app-wrapper { /* You might need to add this class to a div wrapping your app content in App.js */
+  font-family: "Lato", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+  font-size: 0.95rem;
+  font-weight: 300;
+  flex-grow: 1;
+  display: flex; /* if App.js main div is a flex container for Sidebar and content */
+}
+
+/* Overriding some Bootstrap defaults that might conflict with original styles */
+/* For example, if the original design had darker text in NavLinks by default */
+.nav-link {
+    /* color: #desired-color; */ /* Uncomment and set if needed */
+}
+.dropdown-item {
+    /* color: #desired-color; */ /* Uncomment and set if needed */
+}
+/* Ensure that the main layout in App.js allows content to fill the height */
+/* html, body, #root {
+  height: 100%;
+} */
+
+/* Add styles to make sure the main content area is scrollable if content overflows */
+.main-content-area {
+    overflow-y: auto;
+    /* height: calc(100vh - YOUR_HEADER_HEIGHT); */ /* Example, adjust as needed */
+}
+
+/* Specific style adjustments from original HTML to App.css */
+/* This ensures that the React components inherit the intended global styles */
+
+/* Sidebar styling from original */
+.sidebar {
+    background-color: #111827 !important; /* Original sidebar background */
+    color: #ffffff !important; /* Original sidebar text color */
+}
+
+.sidebar .nav-link {
+    color: #9ca3af; /* Original nav link color */
+    font-weight: 400; /* Original nav link font weight */
+}
+.sidebar .nav-link:hover {
+    background-color: #1f2937; /* Original nav link hover background */
+    color: #ffffff; /* Original nav link hover color */
+}
+.sidebar .nav-item-active > .nav-link,
+.sidebar .nav-item-active > .nav-link:hover { /* Note: react-bootstrap uses .active class on Nav.Link directly */
+    background-color: #1f2937;
+    color: #ffffff !important;
+}
+.sidebar .nav-link .material-icons {
+    color: #9ca3af; /* Original icon color */
+}
+.sidebar .nav-item-active .nav-link .material-icons, /* For active items */
+.sidebar .nav-link:hover .material-icons {
+    color: #ffffff; /* Original icon hover/active color */
+}
+.sidebar .submenu .nav-link {
+    font-size: 0.825rem; /* Original submenu font size */
+    font-weight: 300; /* Original submenu font weight */
+}
+
+/* Header styling from original */
+.header { /* This class should be applied to the Header component's main div */
+    background-color: #111827 !important; /* Original header background */
+    color: #ffffff !important; /* Original header text color */
+}
+.header .btn-icon { /* For icon buttons in header */
+    color: #9ca3af;
+}
+.header .btn-icon:hover {
+    color: #ffffff;
+}
+.header .search-input { /* For search input in header */
+    border-color: #374151;
+    background-color: #1f2937;
+    color: #ffffff;
+}
+.header .search-input::placeholder {
+    color: #9ca3af;
+}
+.header .search-input:focus {
+    border-color: #3b82f6;
+    background-color: #1f2937;
+    color: #ffffff;
+}
+.header .notification-badge { /* If you implement a similar badge directly */
+    border: 2px solid #111827; /* Match header background for border */
+    background-color: #ef4444;
+}
+
+/* Avatar Dropdown in Header/Sidebar */
+.avatar-dropdown .dropdown-menu {
+    border: 1px solid #374151;
+    background-color: #111827;
+}
+.avatar-dropdown .dropdown-item {
+    color: #ffffff;
+}
+.avatar-dropdown .dropdown-item:hover {
+    background-color: #1f2937;
+}
+.avatar-dropdown .dropdown-item .material-icons {
+    color: #9ca3af;
+}
+.avatar-dropdown .dropdown-item:hover .material-icons {
+    color: #ffffff;
+}
+.avatar-dropdown .dropdown-divider {
+    border-top: 1px solid #374151;
+}
+
+/* Typography and general elements */
+.text-muted-light {
+    color: #9ca3af !important;
+}
+
+/* Responsive styles from original */
+/* The media queries for sidebar toggling might need to be adapted based on JS logic */
+/* For example, if JS adds 'sidebar-collapsed' to main-content, use that */
+@media (min-width: 768px) {
+    .main-content.sidebar-open { /* Assuming this class is added when sidebar is open */
+        margin-left: 256px; /* Original sidebar width */
+    }
+    .main-content.sidebar-closed { /* Assuming this class is added when sidebar is closed */
+        margin-left: 0;
+    }
+}
+/* Ensure the body/root takes full height for sticky footer or full-height layouts */
+/* html, body, #root { height: 100%; } */
+/* #root { display: flex; flex-direction: column; } */
+
+/* The App.js content wrapper needs to grow to fill available space */
+/* .content-wrapper { flex: 1 0 auto; } */
+
+/* Final check on styles that were applied to components via inline styles in React,
+   if they are better suited here for consistency or override needs. */
+/* Example: Sidebar width, MainContent margin-left, Header margin-left */
+/* These are generally better handled by CSS classes if they are static or have few states. */
+/* However, for dynamic values (like sidebar width changing), JS-driven inline styles are fine. */
+
+/* From Sidebar.js - if sidebarStyle.width is static */
+/* .sidebar { width: 280px; } */
+/* From Header.js - if headerStyle.marginLeft is static */
+/* .header-component { margin-left: 280px; } */
+/* From MainContent.js - if mainContentStyle.marginLeft is static */
+/* .main-content-area { margin-left: 280px; } */
+
+/* The current setup uses inline styles for these, which is fine for this project's scope. */
+/* If complexity grows, consider moving more to CSS classes. */
+/* Add the class used for the main div in App.js to apply body-like styles */
+.app-layout {
+    display: flex;
+    flex-direction: row;
+    min-height: 100vh;
+    background-color: #f3f4f6; /* Original body background */
+    font-family: "Lato", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif; /* Original body font */
+    font-size: 0.95rem; /* Original body font size */
+    font-weight: 300; /* Original body font weight */
+}
+
+.content-wrapper {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    /* Potentially add overflow-x: hidden; if content might cause horizontal scroll */
+}
