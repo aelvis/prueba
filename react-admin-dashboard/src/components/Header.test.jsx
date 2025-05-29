@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import Header from './Header';
+import Header from './Header.jsx';
 
 // Mock CSS imports
 jest.mock('bootstrap-icons/font/bootstrap-icons.css', () => ({}));

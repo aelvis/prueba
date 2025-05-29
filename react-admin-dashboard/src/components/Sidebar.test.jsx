@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import Sidebar from './Sidebar';
+import Sidebar from './Sidebar.jsx';
 
 // Mock react-bootstrap components that might cause issues in a shallow test
 jest.mock('react-bootstrap/Nav', () => {
