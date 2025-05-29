@@ -1,45 +1,56 @@
 import React, { useState } from 'react';
 import { Container, Row, Col, Card, Form, Button } from 'react-bootstrap';
 
-const LoginPage = ({ onLogin }) => { // onLogin prop is for future use
+const LoginPage = ({ onLogin }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // In a real app, you'd call an authentication service here.
-    // For this example, we'll just log and call the onLogin prop (if provided).
     console.log('Login attempt with:', { email, password });
     if (onLogin) {
-      onLogin(email, password); // This will be connected later
+      onLogin(email, password);
     } else {
-      // Placeholder action if onLogin is not yet wired up
       alert('Login form submitted (mock).\nEmail: ' + email + '\nPassword: ' + password + '\nActual login logic to be implemented in App.jsx.');
     }
   };
 
   return (
-    <Container fluid className="vh-100 d-flex justify-content-center align-items-center bg-light">
-      <Row className="w-100 justify-content-center"> {/* Ensure Row also centers its content if Col is not full width */}
-        <Col xs={12} sm={10} md={8} lg={6} xl={4}> {/* Responsive column sizing */}
-          <Card className="shadow-lg border-0 rounded-3"> {/* Enhanced styling */}
-            <Card.Body className="p-4 p-sm-5"> {/* Responsive padding */}
+    <Container fluid className="p-0"> {/* Full width, no padding for the main container */}
+      <Row className="g-0 min-vh-100"> {/* No gutters, ensure row takes at least full viewport height */}
+        
+        {/* Left Column: Image */}
+        <Col md={6} lg={7} className="d-none d-md-block p-0"> {/* Hidden on xs/sm screens */}
+          <img
+            src="https://source.unsplash.com/random/1200x900?technology,office" // Changed query for variety
+            alt="Login background"
+            style={{ width: '100%', height: '100%', objectFit: 'cover' }} // Cover the column
+          />
+        </Col>
+
+        {/* Right Column: Login Form */}
+        <Col 
+          xs={12} md={6} lg={5} 
+          className="d-flex flex-column justify-content-center align-items-center bg-light p-4 p-md-5" // Padding for form area
+        >
+          <Card className="shadow-lg border-0 rounded-3 w-100" style={{ maxWidth: '480px' }}> {/* Max width for the card */}
+            <Card.Body className="p-4 p-sm-5">
               <div className="text-center mb-4">
-                {/* You can add a logo here if you have one */}
+                {/* Optional: Logo */}
                 {/* <img src="/path-to-your-logo.png" alt="Logo" style={{width: '72px', marginBottom: '1rem'}} /> */}
-                <h2 className="fw-bold mb-0">Admin Login</h2> {/* Changed to h2 for better semantics */}
+                <h2 className="fw-bold mb-0">Admin Login</h2>
                 <p className="text-muted">Access your dashboard</p>
               </div>
               <Form onSubmit={handleSubmit}>
-                <Form.Group className="mb-4" controlId="formBasicEmail"> {/* Increased margin */}
+                <Form.Group className="mb-4" controlId="formBasicEmail">
                   <Form.Label>Email address or Username</Form.Label>
                   <Form.Control
-                    type="text" // Changed to text to allow username
+                    type="text"
                     placeholder="Enter email or username"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
-                    size="lg" // Larger input fields
+                    size="lg"
                   />
                 </Form.Group>
 
@@ -51,7 +62,7 @@ const LoginPage = ({ onLogin }) => { // onLogin prop is for future use
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
-                    size="lg" // Larger input fields
+                    size="lg"
                   />
                 </Form.Group>
                 
@@ -61,7 +72,7 @@ const LoginPage = ({ onLogin }) => { // onLogin prop is for future use
                 </Form.Group>
 
                 <div className="d-grid">
-                  <Button variant="primary" type="submit" size="lg"> {/* Larger button */}
+                  <Button variant="primary" type="submit" size="lg">
                     Login
                   </Button>
                 </div>
